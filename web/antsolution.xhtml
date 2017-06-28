@@ -67,16 +67,14 @@
 
         <h:form id="frmMadre">
             <p:menubar id="menumadre">
-                <p:submenu label="Clientes" icon="fa fa-users">
-                    <p:menuitem value="Control" 
+               
+                <p:submenu label="Centro de servicios" icon="fa fa-calculator" >
+                     <p:menuitem value="Clientes" 
                                 icon="fa fa-search"
                                 onclick="PF('wClientesMain').show()"
                                 actionListener="#{man_clientes.iniciarventana()}"
                                 update=":frmClientesMain"
                                 />
-
-                </p:submenu>
-                <p:submenu label="Caja" icon="fa fa-calculator" >
                     <p:menuitem value="Facturar" 
                                 icon="fa fa-credit-card"
                                 onclick="PF('wFacturacion').show()"
@@ -91,16 +89,57 @@
                                 />
 
                 </p:submenu>
-
-
-                <p:submenu label="Inventario" icon="fa fa-list" >
-                    <p:menuitem value="Ajustes" 
+               
+                <p:submenu label="Producción" icon="fa fa-print" >
+                    <p:menuitem value="Orden de Trabajo" 
+                                icon="fa fa-scissors"
+                                onclick="PF('wInventarioArt').show()"
+                                actionListener="#{man_inventario.iniciarventana()}"
+                                update=":frmInventarioArt"
+                                />
+                    
+                    <p:menuitem value="Control Producción" 
                                 icon="fa fa-cubes"
                                 onclick="PF('wInventarioArt').show()"
                                 actionListener="#{man_inventario.iniciarventana()}"
                                 update=":frmInventarioArt"
                                 />
                 </p:submenu>
+                
+                <p:submenu label="Compras" icon="fa fa-cart-arrow-down">
+                    <p:menuitem value="Control" 
+                                icon="fa fa-search"
+                                onclick="PF('wClientesMain').show()"
+                                actionListener="#{man_clientes.iniciarventana()}"
+                                update=":frmClientesMain"
+                                />
+                </p:submenu>
+
+                <p:submenu label="Inventario" icon="fa fa-list" >
+                    <p:menuitem value="Productos" 
+                                icon="fa fa-picture-o"
+                                onclick="PF('wInventarioArt').show()"
+                                actionListener="#{man_inventario.iniciarventana()}"
+                                update=":frmInventarioArt"
+                                />
+                    
+                    <p:menuitem value="Existencias" 
+                                icon="fa fa-cubes"
+                                onclick="PF('wInventarioArt').show()"
+                                actionListener="#{man_inventario.iniciarventana()}"
+                                update=":frmInventarioArt"
+                                />
+                </p:submenu>
+                
+                 <p:submenu label="Reportes" icon="fa fa-bar-chart">
+                    <p:menuitem value="Control" 
+                                icon="fa fa-search"
+                                onclick="PF('wClientesMain').show()"
+                                actionListener="#{man_clientes.iniciarventana()}"
+                                update=":frmClientesMain"
+                                />
+                </p:submenu>
+
 
                 <p:submenu label="Configuración" icon="fa fa-cogs" style=" visibility: visible;" >
                     <p:submenu label="Generales" icon="fa fa-database" >
@@ -126,9 +165,7 @@
                                     />
 
                     </p:submenu>
-                    <p:submenu label="Inventario" icon="fa fa-list" >
-
-                    </p:submenu>
+                  
                     <p:submenu label="Seguridad" icon="fa fa-lock" >
                         <p:menuitem value="Usuarios" 
                                     icon="fa fa-user-circle-o"
@@ -189,347 +226,12 @@
                 </h:panelGrid>
             </p:notificationBar>
         </h:form>
-
+        
+        
         <!-- **************************************************************************************************************************************************************
         *******************************************************************************************************************************************************************
         *******************************************************************************************************************************************************************
-        ****************************************************************    GENERALES     *********************************************************************************
-        *******************************************************************************************************************************************************************
-        *******************************************************************************************************************************************************************
-        ****************************************************************************************************************************************************************-->
-
-        <!-- *******************************************************************
-        **************** Pantalla mantenimiento de usuarios ********************
-        *********************************************************************-->
-
-        <p:dialog  id="dlgUsuarios" widgetVar="wUsuarios" modal="true" 
-                   width="500" height="470" closable="false" resizable="false" 
-                   header="Mantenimiento Usuarios" rendered="true" 
-                   dynamic="true" visible="false" 
-                   >
-
-            <h:form id="frmUsuarios"> 
-                <p:growl id="msgUsuarios" showDetail="true" life="4500"/>
-                <p:toolbar>
-                    <f:facet name="left">
-                        <p:commandButton value="Nuevo" style=" width: 100px;"
-                                         actionListener="#{manUsuarios.nuevo()}"
-                                         update=":frmUsuarios"
-                                         icon="ui-icon-document"
-                                         />
-                        <p:commandButton value="Guardar" style=" width: 100px;"
-                                         action="#{manUsuarios.guardar()}"
-                                         update=":frmUsuarios"
-                                         icon="ui-icon-disk"
-                                         />
-                        <p:commandButton value="Eliminar" style=" width: 100px;"
-                                         actionListener="#{manUsuarios.eliminar()}"
-                                         update=":frmUsuarios"
-                                         icon="ui-icon-trash"
-                                         >
-                            <p:confirm header="Eliminar Registro" 
-                                       message="¿Realmente desea eliminar este Registro?" 
-                                       icon="ui-icon-alert"/>
-                        </p:commandButton>
-                        <p:commandButton value="Cerrar" style=" width: 100px;"
-                                         onclick="PF('wUsuarios').hide()"
-                                         action="#{manUsuarios.cerrarventana()}" 
-                                         update=":frmUsuarios"
-                                         icon="ui-icon-close"
-                                         />
-
-                    </f:facet>
-                </p:toolbar>
-                <div style=" background-color: #ebf8fe;">
-                    <h:panelGrid columns="2" cellpadding="5">
-                        <h:outputText value="Usuario" style="font-weight:bold;" />
-                        <p:inputText maxlength="15" size="17" value="#{manUsuarios.nom_usu}" 
-                                     onfocus="this.select()"/>
-                        <h:outputText value="Contraseña" style="font-weight:bold;" />
-                        <p:password maxlength="15" size="17" value="#{manUsuarios.des_pas}" 
-                                    onfocus="this.select()"/>
-                        <h:outputText value="Tipo Usuario" style="font-weight:bold;" />
-                        <p:selectOneMenu value="#{manUsuarios.tip_usu}" style=" width: 150px;">
-                            <f:selectItem itemLabel="Usuario" itemValue="0"/>
-                            <f:selectItem itemLabel="Usuario Avanzado" itemValue="6"/>
-                            <f:selectItem itemLabel="Administrador" itemValue="7"/>
-                        </p:selectOneMenu>
-                        <h:outputText value="Nombre" style="font-weight:bold;" />
-                        <p:inputText maxlength="125" size="45" value="#{manUsuarios.det_nom}" 
-                                     onfocus="this.select()"/>
-                        <h:outputText value="Correo" style="font-weight:bold;" />
-                        <p:inputText maxlength="50" size="45" value="#{manUsuarios.det_mai}" 
-                                     onfocus="this.select()"/>
-                        <h:outputText value="Departamento" style="font-weight:bold;" />
-                        <p:selectOneMenu value="#{manUsuarios.cod_dep}" style=" width: 150px;">
-                            <f:selectItem itemLabel="Ninguno" itemValue="0"/>
-                            <f:selectItems value="#{manUsuarios.departamentos}" var="mdepusu"
-                                           itemLabel="#{mdepusu.nom_dep}" itemValue="#{mdepusu.cod_dep}"/> 
-                        </p:selectOneMenu>
-                    </h:panelGrid>
-                    <p:dataTable id="dtUsuarios" var="vUsu" 
-                                 value="#{manUsuarios.usuarios}" 
-                                 emptyMessage="No se encontraron resultados" 
-                                 selectionMode="single" selection="#{manUsuarios.catusuarios}" 
-                                 rowKey="#{vUsu.cod_usu}"
-                                 editable="false" 
-                                 style="width:475px"
-                                 scrollable="true"
-                                 scrollHeight="115"
-                                 >
-                        <p:ajax event="rowSelect" listener="#{manUsuarios.onRowSelect}" 
-                                update=":frmUsuarios" />
-
-                        <p:column style="width:50px" headerText="Usuario">
-                            <h:outputText value="#{vUsu.nom_usu}" />
-                        </p:column>
-                        <p:column style="width:100px" headerText="Departamento">
-                            <h:outputText value="#{vUsu.nomdep}" />
-                        </p:column>
-                        <p:column style="width:200px" headerText="Nombre">
-                            <h:outputText value="#{vUsu.det_nom}" />
-                        </p:column>
-                    </p:dataTable>
-                </div>
-
-            </h:form>
-        </p:dialog>  
-
-        <!-- *******************************************************************
-        **************** Pantalla mantenimiento de Paises ********************
-        *********************************************************************-->
-
-        <p:dialog  id="dlgPaises" widgetVar="wPaises" modal="true" 
-                   width="500" height="300" closable="false" resizable="false" 
-                   header="Países" rendered="true" 
-                   dynamic="true" visible="false" 
-                   >
-
-            <h:form id="frmPaises"> 
-                <p:growl id="msgPaises" showDetail="true" life="4500"/>
-                <p:toolbar>
-                    <f:facet name="left">
-                        <p:commandButton value="Nuevo" style=" width: 100px;"
-                                         actionListener="#{manPaises.nuevo()}"
-                                         update=":frmPaises"
-                                         icon="ui-icon-document"
-                                         />
-                        <p:commandButton value="Guardar" style=" width: 100px;"
-                                         action="#{manPaises.guardar()}"
-                                         update=":frmPaises"
-                                         icon="ui-icon-disk"
-                                         />
-                        <p:commandButton value="Eliminar" style=" width: 100px;"
-                                         actionListener="#{manPaises.eliminar()}"
-                                         update=":frmPaises"
-                                         icon="ui-icon-trash"
-                                         >
-                            <p:confirm header="Eliminar Registro" 
-                                       message="¿Realmente desea eliminar este Registro?" 
-                                       icon="ui-icon-alert"/>
-                        </p:commandButton>
-                        <p:commandButton value="Cerrar" style=" width: 100px;"
-                                         onclick="PF('wPaises').hide()"
-                                         action="#{manPaises.cerrarventana()}" 
-                                         update=":frmPaises"
-                                         icon="ui-icon-close"
-                                         />
-
-                    </f:facet>
-                </p:toolbar>
-                <div style=" background-color: #ebf8fe;">
-                    <h:panelGrid columns="2" cellpadding="5">
-                        <h:outputText value="Nombre" style="font-weight:bold;" />
-                        <p:inputText maxlength="20" size="60" value="#{manPaises.nom_pai}" 
-                                     onfocus="this.select()"/>
-                    </h:panelGrid>
-                    <p:dataTable id="dtPaises" var="vPai" 
-                                 value="#{manPaises.paises}" 
-                                 emptyMessage="No se encontraron resultados" 
-                                 selectionMode="single" selection="#{manPaises.catpaises}" 
-                                 rowKey="#{vPai.cod_pai}"
-                                 editable="false" 
-                                 style="width:475px"
-                                 scrollable="true"
-                                 scrollHeight="190"
-                                 >
-                        <p:ajax event="rowSelect" listener="#{manPaises.onRowSelect}" 
-                                update=":frmPaises" />
-
-                        <p:column style="width:50px" headerText="Nombre Bodega">
-                            <h:outputText value="#{vPai.nom_pai}" />
-                        </p:column>
-                    </p:dataTable>
-                </div>
-
-            </h:form>
-        </p:dialog>  
-
-        <!-- *******************************************************************
-        ************** Pantalla mantenimiento de Departamentos *****************
-        *********************************************************************-->
-
-        <p:dialog  id="dlgDepartamentos" widgetVar="wDepartamentos" modal="true" 
-                   width="440" height="320" closable="false" resizable="false" 
-                   header="Mantenimiento Departamentos" rendered="true" 
-                   dynamic="true" visible="false" 
-                   >
-
-            <h:form id="frmDepartamentos"> 
-                <p:growl id="msgDepartamentos" showDetail="true" life="4500"/>
-                <p:toolbar>
-                    <f:facet name="left">
-                        <p:commandButton value="Nuevo" style=" width: 100px;"
-                                         actionListener="#{manDepartamentos.nuevo()}"
-                                         update=":frmDepartamentos"
-                                         icon="ui-icon-document"
-                                         />
-                        <p:commandButton value="Guardar" style=" width: 100px;"
-                                         action="#{manDepartamentos.guardar()}"
-                                         update=":frmDepartamentos"
-                                         icon="ui-icon-disk"
-                                         />
-
-                        <p:commandButton value="Eliminar" style=" width: 100px;"
-                                         actionListener="#{manDepartamentos.eliminar()}"
-                                         update=":frmDepartamentos"
-                                         icon="ui-icon-trash"
-                                         >
-                            <p:confirm header="Eliminar Registro" 
-                                       message="¿Realmente desea eliminar este Registro?" 
-                                       icon="ui-icon-alert"/>
-                        </p:commandButton>
-                        <p:commandButton value="Cerrar" style=" width: 100px;"
-                                         onclick="PF('wDepartamentos').hide()"
-                                         action="#{manDepartamentos.cerrarventana()}" 
-                                         update=":frmDepartamentos"
-                                         icon="ui-icon-close"
-                                         />
-
-
-                    </f:facet>
-                </p:toolbar>
-                <div style=" background-color: #ebf8fe;">
-                    <h:panelGrid columns="2" cellpadding="5">
-                        <h:outputText value="Nombre" style="font-weight:bold;" />
-                        <p:inputText maxlength="20" size="45" value="#{manDepartamentos.nom_dep}" 
-                                     onfocus="this.select()"/>
-                    </h:panelGrid>
-                    <p:dataTable id="dtDepartamentos" var="vDep" 
-                                 value="#{manDepartamentos.departamentos}" 
-                                 emptyMessage="No se encontraron resultados" 
-                                 selectionMode="single" selection="#{manDepartamentos.catdepartamentos}" 
-                                 rowKey="#{vDep.cod_dep}"
-                                 editable="false" 
-                                 style="width:415px"
-                                 scrollable="true"
-                                 scrollHeight="200"
-                                 >
-                        <p:ajax event="rowSelect" listener="#{manDepartamentos.onRowSelect}" 
-                                update=":frmDepartamentos" />
-
-                        <p:column style="width:50px" headerText="Departamento">
-                            <h:outputText value="#{vDep.nom_dep}" />
-                        </p:column>
-
-                    </p:dataTable>
-                </div>
-
-            </h:form>
-        </p:dialog>  
-
-        <!--******************************************************************** 
-        **************** Pantalla mantenimiento de Marcas **********************
-        *********************************************************************-->
-
-        <p:dialog  id="dlgMarca" widgetVar="wMarca" modal="true" 
-                   width="460" height="290" closable="false" resizable="false" 
-                   header="Mantenimiento de Marca" rendered="true" 
-                   dynamic="false" visible="false" 
-                   >
-
-            <h:form id="frmMarca"> 
-                <p:growl id="msgMarca" showDetail="true" life="4500"/>
-                <p:toolbar>
-                    <f:facet name="left">
-                        <p:commandButton value="Nuevo" style=" width: 100px;"
-                                         actionListener="#{manMarcas.nuevo()}"
-                                         update=":frmMarca"
-                                         icon="ui-icon-document"
-                                         />
-                        <p:commandButton value="Guardar" style=" width: 100px;"
-                                         actionListener="#{manMarcas.guardar()}"
-                                         update=":frmMarca"
-                                         icon="ui-icon-disk"
-                                         > 
-                            <p:confirm header="Guardar Registro" 
-                                       message="¿Realmente desea Guardar este Registro?" 
-                                       icon="ui-icon-alert"/>
-                        </p:commandButton>
-                        <p:commandButton value="Eliminar" style=" width: 100px;"
-                                         actionListener="#{manMarcas.eliminar()}"
-                                         update=":frmMarca"
-                                         icon="ui-icon-trash"
-                                         >
-                            <p:confirm header="Eliminar Registro" 
-                                       message="¿Realmente desea eliminar este Registro?" 
-                                       icon="ui-icon-alert"/>
-                        </p:commandButton>
-                        <p:commandButton value="Cerrar" style=" width: 100px;"
-                                         onclick="PF('wMarca').hide()"
-                                         actionListener="#{manMarcas.cerrarventana()}"
-                                         update=":frmMarca"
-                                         icon="ui-icon-close"
-                                         />
-
-                    </f:facet>
-                </p:toolbar>
-
-                <p:panel>
-                    <div style=" background-color:  #ebf8fe;">
-                        <p:focus for="txtnombremarca" />
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <h:outputText value="Nombre" style="font-weight:bold;"/>
-                            <p:inputText id="txtnombremarca" 
-                                         size="50"
-                                         maxlength="50"
-                                         value="#{manMarcas.nom_mar}"
-                                         onfocus="this.select()"
-                                         />
-                        </h:panelGrid>
-                    </div>
-                </p:panel>
-
-                <p:panel>
-                    <p:dataTable id="dtMarca" var="vMarca" 
-                                 value="#{manMarcas.marcas}" 
-                                 emptyMessage="No se encontraron resultados" 
-                                 selectionMode="single" selection="#{manMarcas.catmarcas}" 
-                                 rowKey="#{vMarca.id_mar}"
-                                 editable="false" 
-                                 scrollable="true"
-                                 scrollHeight="120"
-                                 style="width:400px"
-                                 >
-                        <p:ajax event="rowSelect" listener="#{manMarcas.onRowSelect}" 
-                                update=":frmMarca"/>
-                        <p:ajax event="rowUnselect"/>
-
-                        <p:column style="width:30px" headerText="Id">
-                            <h:outputText value="#{vMarca.id_mar}" />
-                        </p:column>
-                        <p:column style="width:300px" headerText="Nombre">
-                            <h:outputText value="#{vMarca.nom_mar}" />
-                        </p:column>
-                    </p:dataTable>
-                </p:panel>
-            </h:form>
-        </p:dialog>
-
-        <!-- **************************************************************************************************************************************************************
-        *******************************************************************************************************************************************************************
-        *******************************************************************************************************************************************************************
-        ****************************************************************    FACTURACIÓN    ********************************************************************************
+        ****************************************************************    CENTRO DE SERVICIOS  **************************************************************************
         *******************************************************************************************************************************************************************
         *******************************************************************************************************************************************************************
         ****************************************************************************************************************************************************************-->
@@ -1270,6 +972,345 @@
         </p:dialog>
 
 
+        
+
+        <!-- **************************************************************************************************************************************************************
+        *******************************************************************************************************************************************************************
+        *******************************************************************************************************************************************************************
+        ****************************************************************    GENERALES     *********************************************************************************
+        *******************************************************************************************************************************************************************
+        *******************************************************************************************************************************************************************
+        ****************************************************************************************************************************************************************-->
+
+        <!-- *******************************************************************
+        **************** Pantalla mantenimiento de usuarios ********************
+        *********************************************************************-->
+
+        <p:dialog  id="dlgUsuarios" widgetVar="wUsuarios" modal="true" 
+                   width="500" height="470" closable="false" resizable="false" 
+                   header="Mantenimiento Usuarios" rendered="true" 
+                   dynamic="true" visible="false" 
+                   >
+
+            <h:form id="frmUsuarios"> 
+                <p:growl id="msgUsuarios" showDetail="true" life="4500"/>
+                <p:toolbar>
+                    <f:facet name="left">
+                        <p:commandButton value="Nuevo" style=" width: 100px;"
+                                         actionListener="#{manUsuarios.nuevo()}"
+                                         update=":frmUsuarios"
+                                         icon="ui-icon-document"
+                                         />
+                        <p:commandButton value="Guardar" style=" width: 100px;"
+                                         action="#{manUsuarios.guardar()}"
+                                         update=":frmUsuarios"
+                                         icon="ui-icon-disk"
+                                         />
+                        <p:commandButton value="Eliminar" style=" width: 100px;"
+                                         actionListener="#{manUsuarios.eliminar()}"
+                                         update=":frmUsuarios"
+                                         icon="ui-icon-trash"
+                                         >
+                            <p:confirm header="Eliminar Registro" 
+                                       message="¿Realmente desea eliminar este Registro?" 
+                                       icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:commandButton value="Cerrar" style=" width: 100px;"
+                                         onclick="PF('wUsuarios').hide()"
+                                         action="#{manUsuarios.cerrarventana()}" 
+                                         update=":frmUsuarios"
+                                         icon="ui-icon-close"
+                                         />
+
+                    </f:facet>
+                </p:toolbar>
+                <div style=" background-color: #ebf8fe;">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputText value="Usuario" style="font-weight:bold;" />
+                        <p:inputText maxlength="15" size="17" value="#{manUsuarios.nom_usu}" 
+                                     onfocus="this.select()"/>
+                        <h:outputText value="Contraseña" style="font-weight:bold;" />
+                        <p:password maxlength="15" size="17" value="#{manUsuarios.des_pas}" 
+                                    onfocus="this.select()"/>
+                        <h:outputText value="Tipo Usuario" style="font-weight:bold;" />
+                        <p:selectOneMenu value="#{manUsuarios.tip_usu}" style=" width: 150px;">
+                            <f:selectItem itemLabel="Usuario" itemValue="0"/>
+                            <f:selectItem itemLabel="Usuario Avanzado" itemValue="6"/>
+                            <f:selectItem itemLabel="Administrador" itemValue="7"/>
+                        </p:selectOneMenu>
+                        <h:outputText value="Nombre" style="font-weight:bold;" />
+                        <p:inputText maxlength="125" size="45" value="#{manUsuarios.det_nom}" 
+                                     onfocus="this.select()"/>
+                        <h:outputText value="Correo" style="font-weight:bold;" />
+                        <p:inputText maxlength="50" size="45" value="#{manUsuarios.det_mai}" 
+                                     onfocus="this.select()"/>
+                        <h:outputText value="Departamento" style="font-weight:bold;" />
+                        <p:selectOneMenu value="#{manUsuarios.cod_dep}" style=" width: 150px;">
+                            <f:selectItem itemLabel="Ninguno" itemValue="0"/>
+                            <f:selectItems value="#{manUsuarios.departamentos}" var="mdepusu"
+                                           itemLabel="#{mdepusu.nom_dep}" itemValue="#{mdepusu.cod_dep}"/> 
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    <p:dataTable id="dtUsuarios" var="vUsu" 
+                                 value="#{manUsuarios.usuarios}" 
+                                 emptyMessage="No se encontraron resultados" 
+                                 selectionMode="single" selection="#{manUsuarios.catusuarios}" 
+                                 rowKey="#{vUsu.cod_usu}"
+                                 editable="false" 
+                                 style="width:475px"
+                                 scrollable="true"
+                                 scrollHeight="115"
+                                 >
+                        <p:ajax event="rowSelect" listener="#{manUsuarios.onRowSelect}" 
+                                update=":frmUsuarios" />
+
+                        <p:column style="width:50px" headerText="Usuario">
+                            <h:outputText value="#{vUsu.nom_usu}" />
+                        </p:column>
+                        <p:column style="width:100px" headerText="Departamento">
+                            <h:outputText value="#{vUsu.nomdep}" />
+                        </p:column>
+                        <p:column style="width:200px" headerText="Nombre">
+                            <h:outputText value="#{vUsu.det_nom}" />
+                        </p:column>
+                    </p:dataTable>
+                </div>
+
+            </h:form>
+        </p:dialog>  
+
+        <!-- *******************************************************************
+        **************** Pantalla mantenimiento de Paises ********************
+        *********************************************************************-->
+
+        <p:dialog  id="dlgPaises" widgetVar="wPaises" modal="true" 
+                   width="500" height="300" closable="false" resizable="false" 
+                   header="Países" rendered="true" 
+                   dynamic="true" visible="false" 
+                   >
+
+            <h:form id="frmPaises"> 
+                <p:growl id="msgPaises" showDetail="true" life="4500"/>
+                <p:toolbar>
+                    <f:facet name="left">
+                        <p:commandButton value="Nuevo" style=" width: 100px;"
+                                         actionListener="#{manPaises.nuevo()}"
+                                         update=":frmPaises"
+                                         icon="ui-icon-document"
+                                         />
+                        <p:commandButton value="Guardar" style=" width: 100px;"
+                                         action="#{manPaises.guardar()}"
+                                         update=":frmPaises"
+                                         icon="ui-icon-disk"
+                                         />
+                        <p:commandButton value="Eliminar" style=" width: 100px;"
+                                         actionListener="#{manPaises.eliminar()}"
+                                         update=":frmPaises"
+                                         icon="ui-icon-trash"
+                                         >
+                            <p:confirm header="Eliminar Registro" 
+                                       message="¿Realmente desea eliminar este Registro?" 
+                                       icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:commandButton value="Cerrar" style=" width: 100px;"
+                                         onclick="PF('wPaises').hide()"
+                                         action="#{manPaises.cerrarventana()}" 
+                                         update=":frmPaises"
+                                         icon="ui-icon-close"
+                                         />
+
+                    </f:facet>
+                </p:toolbar>
+                <div style=" background-color: #ebf8fe;">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputText value="Nombre" style="font-weight:bold;" />
+                        <p:inputText maxlength="20" size="60" value="#{manPaises.nom_pai}" 
+                                     onfocus="this.select()"/>
+                    </h:panelGrid>
+                    <p:dataTable id="dtPaises" var="vPai" 
+                                 value="#{manPaises.paises}" 
+                                 emptyMessage="No se encontraron resultados" 
+                                 selectionMode="single" selection="#{manPaises.catpaises}" 
+                                 rowKey="#{vPai.cod_pai}"
+                                 editable="false" 
+                                 style="width:475px"
+                                 scrollable="true"
+                                 scrollHeight="190"
+                                 >
+                        <p:ajax event="rowSelect" listener="#{manPaises.onRowSelect}" 
+                                update=":frmPaises" />
+
+                        <p:column style="width:50px" headerText="Nombre Bodega">
+                            <h:outputText value="#{vPai.nom_pai}" />
+                        </p:column>
+                    </p:dataTable>
+                </div>
+
+            </h:form>
+        </p:dialog>  
+
+        <!-- *******************************************************************
+        ************** Pantalla mantenimiento de Departamentos *****************
+        *********************************************************************-->
+
+        <p:dialog  id="dlgDepartamentos" widgetVar="wDepartamentos" modal="true" 
+                   width="440" height="320" closable="false" resizable="false" 
+                   header="Mantenimiento Departamentos" rendered="true" 
+                   dynamic="true" visible="false" 
+                   >
+
+            <h:form id="frmDepartamentos"> 
+                <p:growl id="msgDepartamentos" showDetail="true" life="4500"/>
+                <p:toolbar>
+                    <f:facet name="left">
+                        <p:commandButton value="Nuevo" style=" width: 100px;"
+                                         actionListener="#{manDepartamentos.nuevo()}"
+                                         update=":frmDepartamentos"
+                                         icon="ui-icon-document"
+                                         />
+                        <p:commandButton value="Guardar" style=" width: 100px;"
+                                         action="#{manDepartamentos.guardar()}"
+                                         update=":frmDepartamentos"
+                                         icon="ui-icon-disk"
+                                         />
+
+                        <p:commandButton value="Eliminar" style=" width: 100px;"
+                                         actionListener="#{manDepartamentos.eliminar()}"
+                                         update=":frmDepartamentos"
+                                         icon="ui-icon-trash"
+                                         >
+                            <p:confirm header="Eliminar Registro" 
+                                       message="¿Realmente desea eliminar este Registro?" 
+                                       icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:commandButton value="Cerrar" style=" width: 100px;"
+                                         onclick="PF('wDepartamentos').hide()"
+                                         action="#{manDepartamentos.cerrarventana()}" 
+                                         update=":frmDepartamentos"
+                                         icon="ui-icon-close"
+                                         />
+
+
+                    </f:facet>
+                </p:toolbar>
+                <div style=" background-color: #ebf8fe;">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputText value="Nombre" style="font-weight:bold;" />
+                        <p:inputText maxlength="20" size="45" value="#{manDepartamentos.nom_dep}" 
+                                     onfocus="this.select()"/>
+                    </h:panelGrid>
+                    <p:dataTable id="dtDepartamentos" var="vDep" 
+                                 value="#{manDepartamentos.departamentos}" 
+                                 emptyMessage="No se encontraron resultados" 
+                                 selectionMode="single" selection="#{manDepartamentos.catdepartamentos}" 
+                                 rowKey="#{vDep.cod_dep}"
+                                 editable="false" 
+                                 style="width:415px"
+                                 scrollable="true"
+                                 scrollHeight="200"
+                                 >
+                        <p:ajax event="rowSelect" listener="#{manDepartamentos.onRowSelect}" 
+                                update=":frmDepartamentos" />
+
+                        <p:column style="width:50px" headerText="Departamento">
+                            <h:outputText value="#{vDep.nom_dep}" />
+                        </p:column>
+
+                    </p:dataTable>
+                </div>
+
+            </h:form>
+        </p:dialog>  
+
+        <!--******************************************************************** 
+        **************** Pantalla mantenimiento de Marcas **********************
+        *********************************************************************-->
+
+        <p:dialog  id="dlgMarca" widgetVar="wMarca" modal="true" 
+                   width="460" height="290" closable="false" resizable="false" 
+                   header="Mantenimiento de Marca" rendered="true" 
+                   dynamic="false" visible="false" 
+                   >
+
+            <h:form id="frmMarca"> 
+                <p:growl id="msgMarca" showDetail="true" life="4500"/>
+                <p:toolbar>
+                    <f:facet name="left">
+                        <p:commandButton value="Nuevo" style=" width: 100px;"
+                                         actionListener="#{manMarcas.nuevo()}"
+                                         update=":frmMarca"
+                                         icon="ui-icon-document"
+                                         />
+                        <p:commandButton value="Guardar" style=" width: 100px;"
+                                         actionListener="#{manMarcas.guardar()}"
+                                         update=":frmMarca"
+                                         icon="ui-icon-disk"
+                                         > 
+                            <p:confirm header="Guardar Registro" 
+                                       message="¿Realmente desea Guardar este Registro?" 
+                                       icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:commandButton value="Eliminar" style=" width: 100px;"
+                                         actionListener="#{manMarcas.eliminar()}"
+                                         update=":frmMarca"
+                                         icon="ui-icon-trash"
+                                         >
+                            <p:confirm header="Eliminar Registro" 
+                                       message="¿Realmente desea eliminar este Registro?" 
+                                       icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:commandButton value="Cerrar" style=" width: 100px;"
+                                         onclick="PF('wMarca').hide()"
+                                         actionListener="#{manMarcas.cerrarventana()}"
+                                         update=":frmMarca"
+                                         icon="ui-icon-close"
+                                         />
+
+                    </f:facet>
+                </p:toolbar>
+
+                <p:panel>
+                    <div style=" background-color:  #ebf8fe;">
+                        <p:focus for="txtnombremarca" />
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputText value="Nombre" style="font-weight:bold;"/>
+                            <p:inputText id="txtnombremarca" 
+                                         size="50"
+                                         maxlength="50"
+                                         value="#{manMarcas.nom_mar}"
+                                         onfocus="this.select()"
+                                         />
+                        </h:panelGrid>
+                    </div>
+                </p:panel>
+
+                <p:panel>
+                    <p:dataTable id="dtMarca" var="vMarca" 
+                                 value="#{manMarcas.marcas}" 
+                                 emptyMessage="No se encontraron resultados" 
+                                 selectionMode="single" selection="#{manMarcas.catmarcas}" 
+                                 rowKey="#{vMarca.id_mar}"
+                                 editable="false" 
+                                 scrollable="true"
+                                 scrollHeight="120"
+                                 style="width:400px"
+                                 >
+                        <p:ajax event="rowSelect" listener="#{manMarcas.onRowSelect}" 
+                                update=":frmMarca"/>
+                        <p:ajax event="rowUnselect"/>
+
+                        <p:column style="width:30px" headerText="Id">
+                            <h:outputText value="#{vMarca.id_mar}" />
+                        </p:column>
+                        <p:column style="width:300px" headerText="Nombre">
+                            <h:outputText value="#{vMarca.nom_mar}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+        
 
         <!-- **************************************************************************************************************************************************************
         *******************************************************************************************************************************************************************
@@ -2014,8 +2055,8 @@
                 </p:dataTable>
             </h:form>
         </p:dialog>
-
-        <!--******************************************************************** 
+        
+         <!--******************************************************************** 
         ********************* Pantallas Almacén Productos ***********************
         *********************************************************************-->
 
@@ -3649,9 +3690,7 @@
                 </p:panel>
             </h:form>
         </p:dialog>
-
-
-
+               
     </h:body>
 
 </html>
